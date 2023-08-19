@@ -26,8 +26,7 @@
 - Weights: 400, 500, 600, 700
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
 :root {
   --white: #fff;
   --red: hsl(0, 100%, 74%);
@@ -75,6 +74,15 @@ input:focus {
   outline: none;
 }
 
+.invalid {
+  border: 2px solid var(--red);
+  background-image: url("images/icon-error.svg");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  top: 50%;
+  right: 15px;
+}
+
 ::placeholder {
   font-weight: 600;
 }
@@ -98,6 +106,7 @@ button {
   font-weight: 500;
   border-radius: 6px;
   box-shadow: 0 4px rgb(50, 183, 126, 0.9);
+  cursor: pointer;
 }
 
 button:hover {
@@ -177,6 +186,21 @@ a {
   color: var(--blue);
 }
 
+
+.errorMsg {
+  width: 100%;
+}
+
+.registration .errorMsg p {
+  margin-top: -1rem;
+  margin-bottom: -2rem;
+  color: var(--red);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  text-align: right;
+}
+
 /* Desktop */
 @media (min-width: 1000px) {
   body {
@@ -190,7 +214,7 @@ a {
     gap: 4rem;
   }
 
-  .info-content, 
+  .info-content,
   .reg-content {
     flex-basis: 50%;
   }
@@ -204,7 +228,6 @@ a {
     text-align: left;
     padding: 0 1.5rem;
   }
-
 
   .registration p {
     font-size: 12px;
