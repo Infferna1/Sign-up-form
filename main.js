@@ -14,8 +14,14 @@ inputs.forEach((input) => {
 
 submitButton.addEventListener("click", () => {
   inputs.forEach((input) => {
-    if (input.value.trim() === "") {
+    const isEmpty = input.value.trim() === "";
+    const isInvalidEmail =
+      input.type === "email" && !input.value.trim().endsWith("@gmail.com");
+
+    if (isEmpty || isInvalidEmail) {
       input.classList.add("invalid");
+
+      // Err message
       const existingError = input.nextElementSibling;
       if (!existingError || !existingError.classList.contains("errorMsg")) {
         const errorMsg = document.createElement("div");
@@ -38,18 +44,14 @@ submitButton.addEventListener("click", () => {
       }
     } else {
       input.classList.remove("invalid");
+      const existingError = input.nextElementSibling;
+      if (existingError && existingError.classList.contains("errorMsg")) {
+        existingError.remove();
+      }
     }
 
-    if (input.type === "email" && !input.value.trim().endsWith("@gmail.com")) {
-      input.classList.add("invalid");
+    if (isInvalidEmail) {
       input.style.color = "var(--red)";
-      const existingError = input.nextElementSibling;
-      if (!existingError || !existingError.classList.contains("errorMsg")) {
-        const errorMsg = document.createElement("div");
-        errorMsg.classList.add("errorMsg");
-        errorMsg.innerHTML = "<p>Looks like this is not an email</p>";
-        input.insertAdjacentElement("afterend", errorMsg);
-      }
     }
   });
 });
