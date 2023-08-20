@@ -12,34 +12,37 @@ inputs.forEach((input) => {
   });
 });
 
+const errorMessages = {
+  firstname: "First Name cannot be empty",
+  lastname: "Last Name cannot be empty",
+  email: "Looks like this is not an email",
+  password: "Password cannot be empty",
+  invalidEmail: "Invalid email format",
+};
+
 submitButton.addEventListener("click", () => {
   inputs.forEach((input) => {
-    const isEmpty = input.value.trim() === "";
-    const isInvalidEmail =
-      input.type === "email" && !input.value.trim().endsWith("@gmail.com");
+    const value = input.value.trim();
+    const isEmpty = value === "";
+    const inputType = input.type;
 
-    if (isEmpty || isInvalidEmail) {
+    let errorMsgText = errorMessages[input.id];
+
+    if (inputType === "email" && !isValidEmail(value)) {
+      errorMsgText = errorMessages.invalidEmail;
+      input.style.color = "var(--red)";
+    } else {
+      input.style.color = "black";
+    }
+
+    if (isEmpty || (inputType === "email" && !isValidEmail(value))) {
       input.classList.add("invalid");
 
-      // Err message
       const existingError = input.nextElementSibling;
       if (!existingError || !existingError.classList.contains("errorMsg")) {
         const errorMsg = document.createElement("div");
         errorMsg.classList.add("errorMsg");
-        switch (input.id) {
-          case "firstname":
-            errorMsg.innerHTML = "<p>First Name cannot be empty</p>";
-            break;
-          case "lastname":
-            errorMsg.innerHTML = "<p>Last Name cannot be empty</p>";
-            break;
-          case "email":
-            errorMsg.innerHTML = "<p>Looks like this is not an email</p>";
-            break;
-          case "password":
-            errorMsg.innerHTML = "<p>Password cannot be empty</p>";
-            break;
-        }
+        errorMsg.innerHTML = `<p>${errorMsgText}</p>`;
         input.insertAdjacentElement("afterend", errorMsg);
       }
     } else {
@@ -49,9 +52,10 @@ submitButton.addEventListener("click", () => {
         existingError.remove();
       }
     }
-
-    if (isInvalidEmail) {
-      input.style.color = "var(--red)";
-    }
   });
 });
+
+function isValidEmail(email) {
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return emailPattern.test(email);
+}
